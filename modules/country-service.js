@@ -4,7 +4,18 @@ const countryData = require("../data/countryData");
 const subRegionData = require("../data/subRegionData");
 
 let countries = [];
-let sequelize = new Sequelize();
+let sequelize = new Sequelize(
+  env.PGDATABASE, 
+  env.PGUSER, 
+  env.PGPASSWORD, 
+  {
+  host: env.PGHOST,
+  dialect: 'postgres',
+  port: 5432,
+  dialectOptions: {
+    ssl: { rejectUnauthorized: false },
+  },
+});
 
 const SubRegion = sequelize.define(
   'SubRegion',
