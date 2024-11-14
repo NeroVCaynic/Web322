@@ -1,3 +1,17 @@
+/********************************************************************************
+* WEB322 – Assignment 05
+*
+* I declare that this assignment is my own work in accordance with Seneca's
+* Academic Integrity Policy:
+*
+* https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
+*
+* Name: Abdullah Student ID: 148680234 Date: 13th Nov, 2024
+*
+* Published URL: https://web322-kohl.vercel.app/
+*
+********************************************************************************/
+
 const countryData = require("./modules/country-service");
 const path = require("path");
 
