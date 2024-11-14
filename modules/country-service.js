@@ -1,4 +1,5 @@
 const env = require('dotenv').config();
+const pg = require('pg'); // explicitly require the "pg" module
 const Sequelize = require('sequelize');
 const countryData = require("../data/countryData");
 const subRegionData = require("../data/subRegionData");
