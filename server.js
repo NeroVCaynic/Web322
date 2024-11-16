@@ -22,6 +22,7 @@ const HTTP_PORT = process.env.PORT || 8080;
 
 // app.use(express.static('public')); // causing tailwindCSS not working on vercel.com
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.set('views', __dirname + '/views');
@@ -66,10 +67,71 @@ app.get("/countries/:id", async (req,res)=>{
   }
 });
 
+// Route to render the Add Country form
+app.get('/addCountry', async (req, res) => {
+  try {
+    const subRegions = await countryData.getAllSubRegions()
+    res.render('addCountry', { subRegions });
+  } catch (err) {
+    res.status(500).render('500', { message: "Unable to load SubRegions" });
+  }
+});
+
+// Route to handle form submission
+app.post('/addCountry', async (req, res) => {
+  const data = req.body;
+  data.landlocked = data.landlocked ? true : false;
+
+  try {
+    await countryData.addCountry(data);
+    res.redirect('/countries');
+  } catch (err) {
+    res.status(500).render('500', { message: "Unable to add country" });
+  }
+});
+
+app.get('/editCountry/:id', async (req, res) => {
+  try {
+    const dataC = await countryData.getCountryById(req.params.id);
+    const dataSB = await countryData.getAllSubRegions();
+
+    res.render('editCountry', { country: dataC, subRegions: dataSB });
+    
+  } catch (err) {
+    res.status(404).render('404', { message: err });
+  }
+});
+
+app.post('/editCountry', async (req, res) => {
+  const data = req.body;
+  data.landlocked = data.landlocked ? true : false;
+
+  try {
+    await countryData.editCountry(req.body.id, data);
+    
+    res.redirect('/countries');
+  } catch (err) {
+    res.render('500', { message: `I'm sorry, but we have encountered the following error: ${err}` });
+  }
+});
+
+app.get('/deleteCountry/:id', async (req, res) => {
+  try {
+    await countryData.deleteCountry(req.params.id);
+    
+    res.redirect('/countries');
+  } catch (err) {
+    res.render('500', { message: `I'm sorry, but we have encountered the following error: ${err}` });
+  }
+});
+
 app.use((req, res, next) => {
   res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
 });
 
+app.use((req, res, next) => {
+  res.status(500).render("500", {message: `I'm sorry, but we have encountered the following error: ${err}`});
+});
 
 countryData.initialize().then(()=>{
   app.listen(HTTP_PORT, () => { console.log(`server listening on: ${HTTP_PORT}`) });

@@ -56,12 +56,14 @@
           <span class="font-bold">Languages: </span> <%= country.languages %> <br />
           <span class="font-bold">Population: </span> <%= (country.population*1).toLocaleString() %>  <br />
           <span class="font-bold">Area: </span> <%= (country.area*1).toLocaleString() %> Km<sup>2</sup> <br />
+          <span><strong>Is Landlocked:</strong> <%= country.landlocked ? "Yes" : "No" %></span> <br />
           <span class="font-bold">Currencies: </span> <%= country.currencies %> <br />
           <span class="font-bold">Region/Sub-region: </span> <%= country.SubRegion.region %>/<%= country.SubRegion.subRegion %><br />
           <span class="font-bold">On OpenStreetMap: </span> <a href="<%= country.openStreetMaps %>" class="btn btn-primary  mt-2 btn-xs" target="_blank"><%= country.commonName %></a> <br /><br />
           
           <span id="quote"></span>
           <br /><br />
+          <a class="btn btn-secondary btn-sm" href="/editCountry/<%= country.id %>">EDIT COUNTRY: <%= country.officialName %></a>
           <a class="btn btn-primary btn-sm" href="#" onclick="history.back(); return false;">RETURN</a>
         </p>
 

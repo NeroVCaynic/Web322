@@ -142,7 +142,55 @@ function getCountriesByRegion(region) {
   });
 }
 
-module.exports = { initialize, getAllCountries, getCountryById, getCountriesByRegion, getCountriesBySubRegion }
+function getAllSubRegions() {
+  return new Promise((resolve, reject) => {
+    SubRegion.findAll()
+    .then((subRegions) => {
+      resolve(subRegions);
+    }).catch((err) => {
+      reject("Unable to retrieve SubRegions");
+    });
+  });
+}
+
+function addCountry(data) {
+  return new Promise((resolve, reject) => {
+    Country.create(data)
+    .then((country) => {
+      resolve(country);
+    }).catch((err) => {
+      reject("Unable to add country");
+    });
+  });
+}
+
+function editCountry(id, countryData) {
+  return new Promise((resolve, reject) => {
+    Country.update(countryData, {
+      where: { id: id },
+    })
+    .then(() => {
+      resolve();
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+function deleteCountry(id) {
+  return new Promise((resolve, reject) => {
+    Country.destroy({
+      where: { id: id },
+    })
+    .then(() => {
+      resolve();
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+module.exports = { initialize, getAllCountries, getCountryById, getCountriesByRegion, getCountriesBySubRegion, getAllSubRegions, addCountry, editCountry, deleteCountry }
 
 // // Code Snippet to insert existing data from Countries / SubRegions
 // sequelize
