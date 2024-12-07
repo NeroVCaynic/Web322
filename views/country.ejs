@@ -63,7 +63,7 @@
           
           <span id="quote"></span>
           <br /><br />
-          <a class="btn btn-secondary btn-sm" href="/editCountry/<%= country.id %>">EDIT COUNTRY: <%= country.officialName %></a>
+          <% if(session.user){ %><a class="btn btn-secondary btn-sm" href="/editCountry/<%= country.id %>">EDIT COUNTRY: <%= country.officialName %></a><% } %>
           <a class="btn btn-primary btn-sm" href="#" onclick="history.back(); return false;">RETURN</a>
         </p>
 
