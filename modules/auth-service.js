@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-env = require("dotenv").config();
+require("dotenv").config();
 
 let User; // Defined on connection
 
@@ -20,7 +20,7 @@ function initialize() {
 
     return new Promise((resolve, reject) => {
 
-        const db = mongoose.createConnection(env.MONGODB_CONN);
+        const db = mongoose.createConnection(process.env.MONGODB_CONN);
 
         db.on("error", (err) => {
             reject(err);
